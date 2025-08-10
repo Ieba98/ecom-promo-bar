@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model PromoBar {
+  id                Int      @id @default(autoincrement())
+  shop              String
+  message           String
+  bgColor           String   @default("#111827")
+  textColor         String   @default("#ffffff")
+  showOnHome        Boolean  @default(true)
+  showOnProduct     Boolean  @default(false)
+  showOnCollection  Boolean  @default(false)
+  active            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+} 

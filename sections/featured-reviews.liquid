@@ -1,0 +1,149 @@
+{% comment %}
+  Featured Reviews Section (fr-)
+  - Accessibility-first, responsive, no CLS
+  - Minimal, dependency-free JS; progressive enhancement
+  - All classes prefixed with fr-
+{% endcomment %}
+
+{% liquid
+  assign page_type = request.page_type
+  assign show = false
+  if page_type == 'index' and section.settings.show_on_home
+    assign show = true
+  endif
+  if page_type == 'product' and section.settings.show_on_product
+    assign show = true
+  endif
+  if page_type == 'collection' and section.settings.show_on_collection
+    assign show = true
+  endif
+%}
+
+{% if show %}
+  {{ 'featured-reviews.css' | asset_url | stylesheet_tag }}
+
+  <style>
+    /* Critical, section-scoped CSS: limit to this section instance to avoid collisions */
+    #shopify-section-{{ section.id }} .fr-section { --fr-star-size: 16px; --fr-gap: 1rem; }
+    #shopify-section-{{ section.id }} .fr-container { max-width: 1200px; margin-inline: auto; padding: 24px 16px; }
+    #shopify-section-{{ section.id }} .fr-header { display: grid; gap: 8px; margin-bottom: 16px; }
+    #shopify-section-{{ section.id }} .fr-title { font-size: clamp(1.25rem, 2.5vw, 1.75rem); margin: 0; }
+    #shopify-section-{{ section.id }} .fr-subtitle { color: rgb(var(--color-foreground, 18 18 18) / 0.7); margin: 0; }
+    #shopify-section-{{ section.id }} .fr-grid { display: grid; gap: var(--fr-gap); grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    #shopify-section-{{ section.id }} .fr-col { grid-column: span 12; }
+    @media (min-width: 700px) { #shopify-section-{{ section.id }} .fr-col { grid-column: span 6; } }
+    @media (min-width: 1000px) { #shopify-section-{{ section.id }} .fr-col { grid-column: span 4; } }
+
+    #shopify-section-{{ section.id }} .fr-card { display: grid; gap: 8px; padding: 16px; border: 1px solid rgb(0 0 0 / 0.08); border-radius: 12px; background: rgb(255 255 255 / 0.8); backdrop-filter: saturate(1.2) blur(2px); min-block-size: 100%; }
+    #shopify-section-{{ section.id }} .fr-card blockquote { margin: 0; }
+    #shopify-section-{{ section.id }} .fr-author { font-weight: 600; }
+
+    /* Rating container reserves space to avoid CLS before JS enhancement */
+    #shopify-section-{{ section.id }} .fr-rating { inline-size: calc(var(--fr-star-size) * 5); block-size: var(--fr-star-size); display: inline-grid; align-items: center; }
+    #shopify-section-{{ section.id }} .fr-rating__text { font-variant-numeric: tabular-nums; font-size: 0.875rem; }
+
+    #shopify-section-{{ section.id }} .fr-product { display: inline-flex; align-items: center; gap: 10px; margin-top: 4px; color: inherit; text-decoration: none; }
+    #shopify-section-{{ section.id }} .fr-product img { inline-size: 44px; block-size: 44px; object-fit: cover; border-radius: 6px; background: rgb(0 0 0 / 0.04); }
+
+    #shopify-section-{{ section.id }} .fr-sr-only { position: absolute; inline-size: 1px; block-size: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  </style>
+
+  <section class="fr-section" aria-labelledby="fr-title-{{ section.id }}" data-section-id="{{ section.id }}">
+    <div class="fr-container">
+      <header class="fr-header">
+        {% if section.settings.title != blank %}
+          <h2 id="fr-title-{{ section.id }}" class="fr-title">{{ section.settings.title | escape }}</h2>
+        {% endif %}
+        {% if section.settings.subtitle != blank %}
+          <p class="fr-subtitle">{{ section.settings.subtitle }}</p>
+        {% endif %}
+        {% if section.settings.product != blank %}
+          {% assign p = section.settings.product %}
+          <a class="fr-product" href="{{ p.url }}" aria-label="{{ 'general.accessibility.view_product' | t | default: 'Produkt ansehen' }}: {{ p.title | escape }}">
+            {% if p.featured_image %}
+              <img src="{{ p.featured_image | image_url: width: 88, height: 88, crop: 'center' }}"
+                   width="44" height="44" loading="lazy" alt=""
+                   decoding="async" fetchpriority="low">
+            {% endif %}
+            <span>{{ p.title }}</span>
+          </a>
+        {% endif %}
+      </header>
+
+      <ul class="fr-grid" role="list">
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <li class="fr-col" {{ block.shopify_attributes }}>
+              <article class="fr-card" aria-label="{{ block.settings.author | default: 'Bewertung' | escape }}">
+                <div class="fr-rating" data-rating="{{ block.settings.rating | default: 5 }}" aria-hidden="true">
+                  <span class="fr-rating__text">{{ block.settings.rating | default: 5 }}/5</span>
+                </div>
+                <span class="fr-sr-only">{{ block.settings.rating | default: 5 }} von 5 Sternen</span>
+                {% if block.settings.body != blank %}
+                  <blockquote cite="#">
+                    <p>{{ block.settings.body }}</p>
+                  </blockquote>
+                {% endif %}
+                {% if block.settings.author != blank %}
+                  <footer class="fr-author">— {{ block.settings.author | escape }}</footer>
+                {% endif %}
+              </article>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  {% if section.settings.defer_loading %}
+    <script src="{{ 'featured-reviews.js' | asset_url }}" defer></script>
+  {% else %}
+    <script src="{{ 'featured-reviews.js' | asset_url }}"></script>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Featured Reviews",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "templates": ["index", "product", "collection"]
+  },
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titel", "default": "Das sagen unsere Kund:innen" },
+    { "type": "richtext", "id": "subtitle", "label": "Untertitel", "default": "<p>Echte Stimmen von zufriedenen Käufer:innen.</p>" },
+    { "type": "product", "id": "product", "label": "Optionales Produkt (zum Verlinken)" },
+    { "type": "header", "content": "Sichtbarkeit" },
+    { "type": "checkbox", "id": "show_on_home", "label": "Auf Startseite anzeigen", "default": true },
+    { "type": "checkbox", "id": "show_on_product", "label": "Auf Produktseiten anzeigen", "default": false },
+    { "type": "checkbox", "id": "show_on_collection", "label": "Auf Kategorieseiten anzeigen", "default": false },
+    { "type": "checkbox", "id": "defer_loading", "label": "JS verzögert laden (defer)", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Bewertung",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "author", "label": "Autor:in", "default": "Max M." },
+        { "type": "range", "id": "rating", "label": "Bewertung (1–5)", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "body", "label": "Text", "default": "Tolles Produkt – Qualität und Lieferung waren top!" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Reviews",
+      "category": "Text",
+      "blocks": [
+        { "type": "review", "settings": { "author": "Max M.", "rating": 5, "body": "Tolles Produkt – Qualität und Lieferung waren top!" } },
+        { "type": "review", "settings": { "author": "Sofia L.", "rating": 4, "body": "Sehr zufrieden, werde wieder bestellen." } },
+        { "type": "review", "settings": { "author": "Jonas R.", "rating": 5, "body": "Exzellenter Service und schneller Versand." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+ 

@@ -1,0 +1,29 @@
+/* Featured Reviews styles (fr-) */
+.fr-section { --fr-star-size: 16px; --fr-gap: 1rem; color: inherit; }
+.fr-container { max-width: 1200px; margin-inline: auto; padding: 24px 16px; }
+.fr-header { display: grid; gap: 8px; margin-bottom: 16px; }
+.fr-title { font-weight: 700; line-height: 1.2; }
+.fr-subtitle { color: rgb(0 0 0 / 0.6); }
+.fr-grid { display: grid; gap: var(--fr-gap); grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.fr-col { grid-column: span 12; }
+@media (min-width: 700px) { .fr-col { grid-column: span 6; } }
+@media (min-width: 1000px) { .fr-col { grid-column: span 4; } }
+
+.fr-card { display: grid; gap: 8px; padding: 16px; border: 1px solid rgb(0 0 0 / 0.08); border-radius: 12px; background: var(--color-background, #fff); }
+.fr-card blockquote { margin: 0; }
+.fr-author { font-weight: 600; }
+
+/* Rating: space reserved to avoid CLS; stars are injected progressively by JS */
+.fr-rating { inline-size: calc(var(--fr-star-size) * 5); block-size: var(--fr-star-size); display: inline-grid; align-items: center; }
+.fr-rating__text { font-variant-numeric: tabular-nums; font-size: 0.875rem; }
+.fr-stars { display: inline-flex; gap: 2px; inline-size: 100%; block-size: 100%; }
+.fr-star { inline-size: var(--fr-star-size); block-size: var(--fr-star-size); display: inline-block; }
+.fr-star svg { inline-size: 100%; block-size: 100%; display: block; }
+
+/* Product link */
+.fr-product { display: inline-flex; align-items: center; gap: 10px; margin-top: 4px; color: inherit; text-decoration: none; }
+.fr-product:hover { text-decoration: underline; }
+.fr-product img { inline-size: 44px; block-size: 44px; object-fit: cover; border-radius: 6px; background: rgb(0 0 0 / 0.04); }
+
+/* Screen-reader only utility */
+.fr-sr-only { position: absolute; inline-size: 1px; block-size: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 1px, 1px); white-space: nowrap; border: 0; } 

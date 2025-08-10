@@ -1,0 +1,61 @@
+{
+  "sections": {
+    "main": {
+      "type": "safar-landing",
+      "settings": {
+        "brand_bg": "#0b0f14",
+        "brand_accent": "#d7901e",
+        "brand_text": "#ffffff",
+        "logo_text": "SAFAR",
+        "enable_glass_effect": true,
+        "nav_cta_text": "Join the waitlist",
+        "nav_cta_url": "#waitlist",
+        "instagram_url": "#",
+        "twitter_url": "#"
+      },
+      "blocks": {
+        "nav1": { "type": "NAV_LINK", "settings": { "text": "How it Works", "url": "#how" } },
+        "nav2": { "type": "NAV_LINK", "settings": { "text": "Features", "url": "#features" } },
+        "nav3": { "type": "NAV_LINK", "settings": { "text": "AI Planner", "url": "#planner" } },
+        "nav4": { "type": "NAV_LINK", "settings": { "text": "Testimonials", "url": "#testimonials" } },
+        "nav5": { "type": "NAV_LINK", "settings": { "text": "FAQ", "url": "#faq" } },
+
+        "hero": { "type": "HERO", "settings": { "title": "Your Dream Trip, <span style=\"color:var(--sfr-accent)\">Built by AI</span> in Seconds", "subtitle": "Plan, personalize and book a full Morocco adventure with one prompt. Export to your phone and explore offline.", "btn_primary_text": "App Store", "btn_secondary_text": "Google Play" } },
+
+        "step1": { "type": "STEP", "settings": { "title": "Step 1 – Ask Safar AI", "description": "Tell us your dates, budget and vibe. Safar builds a base plan." } },
+        "step2": { "type": "STEP", "settings": { "title": "Step 2 – Get your itinerary", "description": "Receive a day‑by‑day plan with routes, photo spots and booking links you can tweak." } },
+        "step3": { "type": "STEP", "settings": { "title": "Step 3 – Personalize & Share", "description": "Drag & drop to adjust, invite friends, and export to your phone for offline use." } },
+
+        "fcard1": { "type": "FEATURE_CARD", "settings": { "title": "Find Unique Spots", "description": "Explore curated restaurants, riads, hikes and experiences across Morocco." } },
+        "fitem1": { "type": "FEATURE_ITEM", "settings": { "title": "Fes Medina", "description": "2 days · Moroccan capital of culture", "emoji_or_icon_text": "🏛️" } },
+        "fitem2": { "type": "FEATURE_ITEM", "settings": { "title": "Essaouira", "description": "1 day · Windy coastal town", "emoji_or_icon_text": "🌊" } },
+        "fitem3": { "type": "FEATURE_ITEM", "settings": { "title": "Imlil & Atlas Mountains", "description": "1 day · Hike & Berber villages", "emoji_or_icon_text": "⛰️" } },
+        "fcard2": { "type": "FEATURE_CARD", "settings": { "title": "Build Your Itinerary", "description": "Drag & drop days, add places and generate routes." } },
+        "fcard3": { "type": "FEATURE_CARD", "settings": { "title": "Get Insider Recommendations", "description": "Discover what locals and real travelers loved most." } },
+
+        "t1": { "type": "TESTIMONIAL", "settings": { "quote": "“Planned a perfect 7‑day Marrakech + Atlas loop in minutes. The foodie recs were spot on.”", "name": "Sofia", "location": "Spain" } },
+        "t2": { "type": "TESTIMONIAL", "settings": { "quote": "“Loved the hidden riads and desert camp tips. Sharing with friends was seamless.”", "name": "Youssef", "location": "Morocco" } },
+        "t3": { "type": "TESTIMONIAL", "settings": { "quote": "“Took us from vague plan to booked itinerary without stress. 10/10.”", "name": "Chris", "location": "UK" } },
+
+        "faq1": { "type": "FAQ_ITEM", "settings": { "question": "How does pricing work?", "answer": "<p>Core planning is free while in beta. Premium adds offline maps, multi‑stop routes and priority support.</p>" } },
+        "faq2": { "type": "FAQ_ITEM", "settings": { "question": "Can I export my itinerary?", "answer": "<p>Yes—export to calendar, PDF, or the mobile app with one click.</p>" } },
+
+        "fl1": { "type": "FOOTER_LINK", "settings": { "column": "pages", "text": "Home", "url": "#" } },
+        "fl2": { "type": "FOOTER_LINK", "settings": { "column": "pages", "text": "How it works", "url": "#how" } },
+        "fl3": { "type": "FOOTER_LINK", "settings": { "column": "pages", "text": "Features", "url": "#features" } },
+        "fl4": { "type": "FOOTER_LINK", "settings": { "column": "planner", "text": "Start planning", "url": "#planner" } },
+        "fl5": { "type": "FOOTER_LINK", "settings": { "column": "planner", "text": "Testimonials", "url": "#testimonials" } }
+      },
+      "block_order": [
+        "nav1","nav2","nav3","nav4","nav5",
+        "hero",
+        "step1","step2","step3",
+        "fcard1","fitem1","fitem2","fitem3","fcard2","fcard3",
+        "t1","t2","t3",
+        "faq1","faq2",
+        "fl1","fl2","fl3","fl4","fl5"
+      ]
+    }
+  },
+  "order": ["main"]
+} 

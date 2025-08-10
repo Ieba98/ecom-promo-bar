@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "featured_reviews": {
+      "type": "featured-reviews",
+      "settings": {
+        "title": "Das sagen unsere Kund:innen",
+        "subtitle": "<p>Echte Stimmen von zufriedenen Käufer:innen.</p>",
+        "product": null,
+        "show_on_home": true,
+        "show_on_product": false,
+        "show_on_collection": false,
+        "defer_loading": true
+      },
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "author": "Max M.",
+            "rating": 5,
+            "body": "Tolles Produkt – Qualität und Lieferung waren top!"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "author": "Sofia L.",
+            "rating": 4,
+            "body": "Sehr zufrieden, werde wieder bestellen."
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "author": "Jonas R.",
+            "rating": 5,
+            "body": "Exzellenter Service und schneller Versand."
+          }
+        }
+      },
+      "block_order": ["review_1", "review_2", "review_3"]
+    }
+  },
+  "order": ["featured_reviews"]
+} 

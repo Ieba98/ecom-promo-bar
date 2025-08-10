@@ -1,0 +1,8 @@
+extends: theme-check:recommended
+
+exclude_patterns:
+  - node_modules/**
+  - vendor/**
+  - docs/**
+
+ignored_checks: [] 

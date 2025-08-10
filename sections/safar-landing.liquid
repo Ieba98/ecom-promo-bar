@@ -1,0 +1,478 @@
+{% comment %}
+  SAFAR Landing Section (sfr-)
+  - Single drop-in section replicating the provided landing page
+  - Accessible, responsive, no external build tools
+  - All CSS in assets/safar-landing.css, JS in assets/safar-landing.js
+  - Colors applied via CSS variables for easy theming
+{% endcomment %}
+
+{{ 'safar-landing.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign enable_glass = section.settings.enable_glass_effect
+%}
+
+<section id="sfr-landing-{{ section.id }}" class="sfr-landing" data-section-id="{{ section.id }}"
+  style="--sfr-bg: {{ section.settings.brand_bg }}; --sfr-accent: {{ section.settings.brand_accent }}; --sfr-text: {{ section.settings.brand_text }};">
+
+  <!-- Top nav -->
+  <header class="sfr-header" aria-label="Hauptnavigation">
+    <nav class="sfr-container">
+      <div class="sfr-nav-row">
+        <a href="#" class="sfr-brand">
+          <span class="sfr-brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18" opacity=".25"/><path d="M16.5 7.5l-2.75 6.25L7.5 16.5l6.25-2.75L16.5 7.5z" stroke-width="1.5"/></svg>
+          </span>
+          <span class="sfr-brand-text">{{ section.settings.logo_text | default: 'SAFAR' }}</span>
+        </a>
+
+        <div class="sfr-links" aria-label="Hauptlinks">
+          {% for block in section.blocks %}
+            {% if block.type == 'NAV_LINK' %}
+              <a href="{{ block.settings.url | default: '#' }}" class="sfr-link" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="sfr-cta-wrap">
+          {% if section.settings.nav_cta_text != blank %}
+            <a href="{{ section.settings.nav_cta_url | default: '#' }}" class="sfr-btn-primary">{{ section.settings.nav_cta_text }}</a>
+          {% endif %}
+        </div>
+
+        <button id="sfr-menuBtn-{{ section.id }}" class="sfr-btn-ghost sfr-only-mobile" aria-expanded="false" aria-controls="sfr-mMenu-{{ section.id }}">
+          <svg class="sfr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-width="1.5" d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <span class="sfr-sr-only">Menü öffnen</span>
+        </button>
+      </div>
+    </nav>
+    <div id="sfr-mMenu-{{ section.id }}" class="sfr-mmenu" hidden>
+      <div class="sfr-container sfr-mmenu-inner">
+        {% for block in section.blocks %}
+          {% if block.type == 'NAV_LINK' %}
+            <a class="sfr-mmenu-link" href="{{ block.settings.url | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</a>
+          {% endif %}
+        {% endfor %}
+        {% if section.settings.nav_cta_text != blank %}
+          <a class="sfr-btn-primary sfr-mmenu-cta" href="{{ section.settings.nav_cta_url | default: '#' }}">{{ section.settings.nav_cta_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  {% comment %} HERO {% endcomment %}
+  {% assign hero = section.blocks | where: 'type', 'hero' | first %}
+  <section class="sfr-hero" aria-labelledby="sfr-hero-title-{{ section.id }}">
+    <div class="sfr-hero-bg" aria-hidden="true">
+      {% if hero.settings.desktop_bg != blank or hero.settings.mobile_bg != blank %}
+        <picture>
+          {% if hero.settings.desktop_bg != blank %}
+            <source media="(min-width: 1024px)" srcset="{{ hero.settings.desktop_bg | image_url: width: 2400 }}">
+          {% endif %}
+          {% assign mob_img = hero.settings.mobile_bg | default: hero.settings.desktop_bg %}
+          {% if mob_img != blank %}
+            {{ mob_img | image_url: width: 1600 | image_tag: alt: '', class: 'sfr-hero-img', loading: 'eager', fetchpriority: 'high' }}
+          {% endif %}
+        </picture>
+      {% endif %}
+      <div class="sfr-hero-gradient" aria-hidden="true"></div>
+      <div class="sfr-hero-tint" aria-hidden="true"></div>
+    </div>
+    <div class="sfr-container sfr-hero-inner">
+      <div class="sfr-hero-grid">
+        <div>
+          <span class="sfr-pill"><svg class="sfr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18" opacity=".3"/><path d="M16.5 7.5l-2.75 6.25L7.5 16.5l6.25-2.75L16.5 7.5z" stroke-width="1.25"/></svg> Beta access</span>
+          <h1 id="sfr-hero-title-{{ section.id }}" class="sfr-hero-title">{{ hero.settings.title | default: 'Your Dream Trip, Built by AI in Seconds' }}</h1>
+          {% if hero.settings.subtitle != blank %}
+            <p class="sfr-hero-sub">{{ hero.settings.subtitle }}</p>
+          {% endif %}
+          <div class="sfr-hero-ctas">
+            {% if hero.settings.btn_primary_text != blank %}
+              <a href="{{ hero.settings.btn_primary_url | default: '#' }}" class="sfr-btn-black">
+                <svg class="sfr-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7a4 4 0 00-4 4v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4z"/></svg>
+                <span>{{ hero.settings.btn_primary_text }}</span>
+              </a>
+            {% endif %}
+            {% if hero.settings.btn_secondary_text != blank %}
+              <a href="{{ hero.settings.btn_secondary_url | default: '#' }}" class="sfr-btn-black">
+                <svg class="sfr-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v16H4z"/></svg>
+                <span>{{ hero.settings.btn_secondary_text }}</span>
+              </a>
+            {% endif %}
+            <span class="sfr-hero-note">More than 500 people on the waitlist</span>
+          </div>
+        </div>
+        <div class="sfr-hero-phone-wrap sfr-reveal-pop{% if enable_glass %} sfr-glass{% endif %}">
+          <div class="sfr-phone-frame">
+            <div class="sfr-phone-notch" aria-hidden="true"></div>
+            <div class="sfr-phone-screen">
+              <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop" alt="App screen" loading="lazy" class="sfr-img-cover"/>
+              <div class="sfr-phone-fab">
+                <span class="sfr-op80">AI Plans. You Explore.</span>
+                <button class="sfr-btn-accent" type="button">Open</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% comment %} HOW IT WORKS {% endcomment %}
+  <section id="sfr-how-{{ section.id }}" class="sfr-section sfr-how" aria-labelledby="sfr-how-title-{{ section.id }}">
+    <div class="sfr-container">
+      <h2 id="sfr-how-title-{{ section.id }}" class="sfr-h2">How it works</h2>
+      <div class="sfr-grid-2">
+        <div>
+          <div role="tablist" aria-label="How it works steps" class="sfr-steps" id="sfr-how-steps-{{ section.id }}">
+            {% assign steps = section.blocks | where: 'type', 'step' %}
+            {% for block in steps %}
+              <button id="sfr-step-{{ forloop.index0 }}-{{ section.id }}" role="tab" aria-selected="{{ forloop.first }}" aria-controls="sfr-panel-{{ forloop.index0 }}-{{ section.id }}" tabindex="{{ forloop.first | default: false | ternary: 0, -1 }}" data-idx="{{ forloop.index0 }}" class="sfr-step" {{ block.shopify_attributes }}>
+                <div class="sfr-step-title">{{ block.settings.title | default: 'Step ' | append: forloop.index }}</div>
+                <p class="sfr-step-text">{{ block.settings.description | default: 'Describe this step' }}</p>
+              </button>
+            {% endfor %}
+            <p class="sfr-sr-only" id="sfr-how-instructions-{{ section.id }}">Use Left/Right arrow keys to switch steps. On mobile, swipe left/right.</p>
+          </div>
+        </div>
+        <div>
+          <div id="sfr-iphoneDeck-{{ section.id }}" class="sfr-iphone-deck" aria-describedby="sfr-how-instructions-{{ section.id }}">
+            {% for block in steps %}
+              <article class="sfr-iphone-card" data-idx="{{ forloop.index0 }}" id="sfr-panel-{{ forloop.index0 }}-{{ section.id }}" role="tabpanel" aria-labelledby="sfr-step-{{ forloop.index0 }}-{{ section.id }}" aria-hidden="{{ forloop.first | default: false | ternary: 'false','true' }}">
+                <div class="sfr-iphone-bezel"></div>
+                <div class="sfr-iphone-notch"></div>
+                <div class="sfr-iphone-screen sfr-iphone-ui">
+                  {% if forloop.index0 == 0 %}
+                    <div class="sfr-ui-top">Safar AI</div>
+                    <div class="sfr-ui-body">
+                      <div class="sfr-ui-bubble">Plan 7 days in Morocco for food + culture.</div>
+                      <div class="sfr-ui-bubble alt">Got it! Marrakech, Atlas, Essaouira. Budget?</div>
+                      <div class="sfr-ui-bubble">€1200, mid‑range riads, some hikes.</div>
+                      <div class="sfr-ui-bubble alt">Perfect. Drafting a 7‑day route with riads & food spots…</div>
+                    </div>
+                    <div class="sfr-ui-bottom">
+                      <div class="sfr-ui-input">Ask Safar…</div>
+                      <div class="sfr-ui-send">↵</div>
+                    </div>
+                  {% elsif forloop.index0 == 1 %}
+                    <div class="sfr-ui-top">7‑Day Itinerary</div>
+                    <ul class="sfr-ui-list">
+                      <li><div class="sfr-ui-row">Day 1 – Marrakech</div><div class="sfr-ui-sub">Jemaa el‑Fnaa, food tour</div></li>
+                      <li><div class="sfr-ui-row">Day 2 – Atlas Mountains</div><div class="sfr-ui-sub">Imlil hike, Berber lunch</div></li>
+                      <li><div class="sfr-ui-row">Day 3 – Ouarzazate</div><div class="sfr-ui-sub">Aït Benhaddou route</div></li>
+                      <li><div class="sfr-ui-row">Day 4 – Desert Camp</div><div class="sfr-ui-sub">Camel sunset, campfire</div></li>
+                      <li><div class="sfr-ui-row">Day 5 – Dades</div><div class="sfr-ui-sub">Gorges drive, viewpoints</div></li>
+                      <li><div class="sfr-ui-row">Day 6 – Essaouira</div><div class="sfr-ui-sub">Sea walls, medina stroll</div></li>
+                      <li><div class="sfr-ui-row">Day 7 – Marrakech</div><div class="sfr-ui-sub">Hammam & farewell dinner</div></li>
+                    </ul>
+                  {% else %}
+                    <div class="sfr-ui-top">Share Trip</div>
+                    <div class="sfr-ui-share">
+                      <div class="sfr-ui-avatars">
+                        <img loading="lazy" class="sfr-ui-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=80&auto=format&fit=crop" alt="Sofia"/>
+                        <img loading="lazy" class="sfr-ui-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=80&auto=format&fit=crop" alt="Youssef"/>
+                        <img loading="lazy" class="sfr-ui-avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=80&auto=format&fit=crop" alt="Chris"/>
+                        <span class="sfr-ui-more">+ 4 more</span>
+                      </div>
+                      <div class="sfr-ui-card">
+                        <div class="sfr-ui-title">Permissions</div>
+                        <div class="sfr-ui-perms">
+                          <label class="sfr-ui-check"><input type="checkbox" checked> Can edit itinerary</label>
+                          <label class="sfr-ui-check"><input type="checkbox"> Can view only</label>
+                        </div>
+                      </div>
+                      <button class="sfr-btn-accent sfr-btn-block" type="button">Invite friends</button>
+                    </div>
+                  {% endif %}
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% comment %} FEATURES {% endcomment %}
+  <section id="sfr-features-{{ section.id }}" class="sfr-section sfr-features" aria-labelledby="sfr-features-title-{{ section.id }}">
+    <div class="sfr-container">
+      <div class="sfr-grid-2">
+        {% assign feature_cards = section.blocks | where: 'type', 'feature_card' %}
+        {% assign feature_items = section.blocks | where: 'type', 'feature_item' %}
+        <div class="sfr-card-lg">
+          {% assign first_card = feature_cards | first %}
+          {% if first_card %}
+            {% if first_card.settings.image != blank %}
+              {{ first_card.settings.image | image_url: width: 1600 | image_tag: alt: first_card.settings.title, class: 'sfr-card-img', loading: 'lazy' }}
+            {% endif %}
+            <div class="sfr-card-body">
+              <h3 class="sfr-h4">{{ first_card.settings.title | default: 'Find Unique Spots' }}</h3>
+              <p class="sfr-text">{{ first_card.settings.description | default: 'Explore curated restaurants, riads, hikes and experiences across Morocco.' }}</p>
+            </div>
+          {% else %}
+            <div class="sfr-card-body">
+              <h3 class="sfr-h4">Find Unique Spots</h3>
+              <p class="sfr-text">Explore curated restaurants, riads, hikes and experiences across Morocco.</p>
+            </div>
+          {% endif %}
+        </div>
+        <div class="sfr-col">
+          {% for item in feature_items %}
+            <div class="sfr-item" {{ item.shopify_attributes }}>
+              <div>
+                <div class="sfr-item-title">{{ item.settings.title | default: 'Fes Medina' }}</div>
+                <div class="sfr-item-sub">{{ item.settings.description | default: '2 days · Moroccan capital of culture' }}</div>
+              </div>
+              <span class="sfr-emoji">{{ item.settings.emoji_or_icon_text | default: '🏛️' }}</span>
+            </div>
+          {% endfor %}
+          <div class="sfr-grid-2 sfr-pt">
+            {% for card in feature_cards offset: 1 %}
+              <div class="sfr-mini-card" {{ card.shopify_attributes }}>
+                <h4 class="sfr-h5">{{ card.settings.title | default: 'Build Your Itinerary' }}</h4>
+                <p class="sfr-text-sm">{{ card.settings.description | default: 'Drag & drop days, add places and generate routes.' }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% comment %} TESTIMONIALS {% endcomment %}
+  <section id="sfr-testimonials-{{ section.id }}" class="sfr-section sfr-testimonials" aria-labelledby="sfr-testimonials-title-{{ section.id }}">
+    <div class="sfr-container">
+      <div class="sfr-grid-3">
+        {% for block in section.blocks %}
+          {% if block.type == 'testimonial' %}
+            <figure class="sfr-quote" {{ block.shopify_attributes }}>
+              <blockquote class="sfr-quote-text">{{ block.settings.quote | default: '“Planned a perfect 7‑day Marrakech + Atlas loop in minutes.”' }}</blockquote>
+              <figcaption class="sfr-quote-cap">
+                {% if block.settings.avatar != blank %}
+                  {{ block.settings.avatar | image_url: width: 100, height: 100, crop: 'center' | image_tag: alt: block.settings.name, class: 'sfr-avatar', loading: 'lazy' }}
+                {% endif %}
+                <div>
+                  <div class="sfr-quote-name">{{ block.settings.name | default: 'Sofia' }}</div>
+                  <div class="sfr-quote-loc">{{ block.settings.location | default: 'Spain' }}</div>
+                </div>
+              </figcaption>
+            </figure>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% comment %} FAQ {% endcomment %}
+  <section id="sfr-faq-{{ section.id }}" class="sfr-section sfr-faq" aria-labelledby="sfr-faq-title-{{ section.id }}">
+    <div class="sfr-container">
+      <h2 id="sfr-faq-title-{{ section.id }}" class="sfr-h2">FAQ</h2>
+      <div class="sfr-faq-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'faq_item' %}
+            <details class="sfr-faq-item" {{ block.shopify_attributes }}>
+              <summary class="sfr-faq-summary">{{ block.settings.question | default: 'How does pricing work?' }}
+                <svg class="sfr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <div class="sfr-faq-answer">{{ block.settings.answer | default: '<p>Core planning is free while in beta. Premium adds offline maps, multi‑stop routes and priority support.</p>' }}</div>
+            </details>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% comment %} FOOTER {% endcomment %}
+  <footer class="sfr-footer" aria-labelledby="sfr-footer-heading-{{ section.id }}">
+    <div class="sfr-container">
+      <div class="sfr-footer-grid">
+        <div>
+          <a href="#" class="sfr-brand sfr-brand-footer">
+            <span class="sfr-brand-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18" opacity=".25"/><path d="M16.5 7.5l-2.75 6.25L7.5 16.5l6.25-2.75L16.5 7.5z" stroke-width="1.5"/></svg>
+            </span>
+            <span class="sfr-brand-text">{{ section.settings.logo_text | default: 'SAFAR' }}</span>
+          </a>
+          <p class="sfr-foot-text">Discover Morocco like never before with personalized AI‑built trips and insider tips.</p>
+        </div>
+        <div class="sfr-footer-links">
+          <div>
+            <h3 class="sfr-foot-head">Pages</h3>
+            <ul class="sfr-foot-list">
+              {% for block in section.blocks %}
+                {% if block.type == 'footer_link' and block.settings.column == 'pages' %}
+                  <li><a class="sfr-foot-link" href="{{ block.settings.url | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          <div>
+            <h3 class="sfr-foot-head">AI Planner</h3>
+            <ul class="sfr-foot-list">
+              {% for block in section.blocks %}
+                {% if block.type == 'footer_link' and block.settings.column == 'planner' %}
+                  <li><a class="sfr-foot-link" href="{{ block.settings.url | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h3 class="sfr-foot-head">Stay in touch</h3>
+          <form id="sfr-waitlist-{{ section.id }}" class="sfr-waitlist" onsubmit="return false">
+            <label class="sfr-sr-only" for="sfr-email-{{ section.id }}">Email</label>
+            <input id="sfr-email-{{ section.id }}" type="email" required placeholder="name@email.com" class="sfr-input" />
+            <button class="sfr-btn-primary" type="submit">Join Now</button>
+          </form>
+          <div class="sfr-socials">
+            {% if section.settings.instagram_url != blank %}
+              <a href="{{ section.settings.instagram_url }}" aria-label="Instagram" class="sfr-social"><svg class="sfr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15.5a4.5 4.5 0 00-4.5-4.5 4.5 4.5 0 00-4.5 4.5"/></svg></a>
+            {% endif %}
+            {% if section.settings.twitter_url != blank %}
+              <a href="{{ section.settings.twitter_url }}" aria-label="Twitter" class="sfr-social"><svg class="sfr-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 5.8c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.2 1.7-2.1-.7.4-1.6.8-2.5 1-1.5-1.6-4.2-.9-5 1.2-.3.8-.2 1.6.2 2.3-3.1-.2-5.8-1.7-7.6-4-.9 1.6-.4 3.6 1.1 4.6-.6 0-1.1-.2-1.6-.4.1 2 1.5 3.7 3.4 4-.5.2-1.1.2-1.6.1.5 1.7 2 2.9 3.8 3-1.7 1.3-3.8 2.1-6.1 2 .2 0 .5 0 .7 0 2.2 1.4 4.8 2.2 7.6 2.2 9.1 0 14.1-7.7 13.8-14.6.9-.6 1.6-1.3 2.2-2.1z"/></svg></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="sfr-footer-meta">
+        <p>© <span id="sfr-year-{{ section.id }}"></span> Safar. All rights reserved.</p>
+        <div class="sfr-foot-legal">
+          <a href="#" class="sfr-foot-link">Privacy</a>
+          <a href="#" class="sfr-foot-link">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</section>
+
+{{ 'safar-landing.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "SAFAR Landing",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "color", "id": "brand_bg", "label": "Hintergrundfarbe", "default": "#0b0f14" },
+    { "type": "color", "id": "brand_accent", "label": "Akzentfarbe", "default": "#d7901e" },
+    { "type": "color", "id": "brand_text", "label": "Textfarbe", "default": "#ffffff" },
+    { "type": "text", "id": "logo_text", "label": "Logo-Text", "default": "SAFAR" },
+    { "type": "checkbox", "id": "enable_glass_effect", "label": "Glas-Effekt aktivieren", "default": true },
+    { "type": "text", "id": "nav_cta_text", "label": "Navigations-CTA Text", "default": "Join the waitlist" },
+    { "type": "url", "id": "nav_cta_url", "label": "Navigations-CTA Link" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "url", "id": "twitter_url", "label": "Twitter URL" }
+  ],
+  "blocks": [
+    {
+      "type": "NAV_LINK",
+      "name": "Navigation Link",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "How it Works" },
+        { "type": "url", "id": "url", "label": "Link", "default": "#how" }
+      ]
+    },
+    {
+      "type": "hero",
+      "name": "Hero",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titel", "default": "Your Dream Trip, <span style=\"color:var(--sfr-accent)\">Built by AI</span> in Seconds" },
+        { "type": "textarea", "id": "subtitle", "label": "Untertitel", "default": "Plan, personalize and book a full Morocco adventure with one prompt. Export to your phone and explore offline." },
+        { "type": "text", "id": "btn_primary_text", "label": "Primärer Button Text", "default": "App Store" },
+        { "type": "url", "id": "btn_primary_url", "label": "Primärer Button Link" },
+        { "type": "text", "id": "btn_secondary_text", "label": "Sekundärer Button Text", "default": "Google Play" },
+        { "type": "url", "id": "btn_secondary_url", "label": "Sekundärer Button Link" },
+        { "type": "image_picker", "id": "desktop_bg", "label": "Hintergrund (Desktop)" },
+        { "type": "image_picker", "id": "mobile_bg", "label": "Hintergrund (Mobil)" }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "How Step",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titel", "default": "Step 1 – Ask Safar AI" },
+        { "type": "textarea", "id": "description", "label": "Beschreibung", "default": "Tell us your dates, budget and vibe. Safar builds a base plan." }
+      ]
+    },
+    {
+      "type": "feature_card",
+      "name": "Feature Card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titel", "default": "Find Unique Spots" },
+        { "type": "textarea", "id": "description", "label": "Beschreibung", "default": "Explore curated restaurants, riads, hikes and experiences across Morocco." },
+        { "type": "image_picker", "id": "image", "label": "Bild" }
+      ]
+    },
+    {
+      "type": "feature_item",
+      "name": "Feature Item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Titel", "default": "Fes Medina" },
+        { "type": "textarea", "id": "description", "label": "Beschreibung", "default": "2 days · Moroccan capital of culture" },
+        { "type": "text", "id": "emoji_or_icon_text", "label": "Emoji/Icon", "default": "🏛️" }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Zitat", "default": "“Planned a perfect 7‑day Marrakech + Atlas loop in minutes. The foodie recs were spot on.”" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Sofia" },
+        { "type": "text", "id": "location", "label": "Ort", "default": "Spain" },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Frage", "default": "How does pricing work?" },
+        { "type": "richtext", "id": "answer", "label": "Antwort", "default": "<p>Core planning is free while in beta. Premium adds offline maps, multi‑stop routes and priority support.</p>" }
+      ]
+    },
+    {
+      "type": "footer_link",
+      "name": "Footer Link",
+      "settings": [
+        { "type": "select", "id": "column", "label": "Spalte", "options": [ {"value":"pages","label":"Pages"}, {"value":"planner","label":"AI Planner"} ], "default": "pages" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Home" },
+        { "type": "url", "id": "url", "label": "Link", "default": "#" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SAFAR Landing",
+      "blocks": [
+        { "type": "nav_link", "settings": { "text": "How it Works", "url": "#how" } },
+        { "type": "nav_link", "settings": { "text": "Features", "url": "#features" } },
+        { "type": "nav_link", "settings": { "text": "AI Planner", "url": "#planner" } },
+        { "type": "nav_link", "settings": { "text": "Testimonials", "url": "#testimonials" } },
+        { "type": "nav_link", "settings": { "text": "FAQ", "url": "#faq" } },
+        { "type": "hero" },
+        { "type": "step", "settings": { "title": "Step 1 – Ask Safar AI", "description": "Tell us your dates, budget and vibe. Safar builds a base plan." } },
+        { "type": "step", "settings": { "title": "Step 2 – Get your itinerary", "description": "Receive a day‑by‑day plan with routes, photo spots and booking links you can tweak." } },
+        { "type": "step", "settings": { "title": "Step 3 – Personalize & Share", "description": "Drag & drop to adjust, invite friends, and export to your phone for offline use." } },
+        { "type": "feature_card" },
+        { "type": "feature_item", "settings": { "title": "Fes Medina", "description": "2 days · Moroccan capital of culture", "emoji_or_icon_text": "🏛️" } },
+        { "type": "feature_item", "settings": { "title": "Essaouira", "description": "1 day · Windy coastal town", "emoji_or_icon_text": "🌊" } },
+        { "type": "feature_item", "settings": { "title": "Imlil & Atlas Mountains", "description": "1 day · Hike & Berber villages", "emoji_or_icon_text": "⛰️" } },
+        { "type": "feature_card", "settings": { "title": "Build Your Itinerary", "description": "Drag & drop days, add places and generate routes." } },
+        { "type": "feature_card", "settings": { "title": "Get Insider Recommendations", "description": "Discover what locals and real travelers loved most." } },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "faq_item" },
+        { "type": "faq_item" },
+        { "type": "footer_link", "settings": { "column": "pages", "text": "Home", "url": "#" } },
+        { "type": "footer_link", "settings": { "column": "pages", "text": "How it works", "url": "#how" } },
+        { "type": "footer_link", "settings": { "column": "pages", "text": "Features", "url": "#features" } },
+        { "type": "footer_link", "settings": { "column": "planner", "text": "Start planning", "url": "#planner" } },
+        { "type": "footer_link", "settings": { "column": "planner", "text": "Templates", "url": "#" } }
+      ]
+    }
+  ]
+}
+{% endschema %} 

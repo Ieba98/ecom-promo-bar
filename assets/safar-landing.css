@@ -1,0 +1,175 @@
+/* SAFAR Landing (sfr-) – namespaced, no global collisions */
+:root { --sfr-radius-xl: 1rem; --sfr-ring: 1px solid rgba(0,0,0,.1); }
+.sfr-landing { color: var(--sfr-text, #fff); background: var(--sfr-bg, #0b0f14); font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial; }
+.sfr-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.sfr-op80 { opacity: .9; }
+
+/* Container */
+.sfr-container { max-width: 80rem; margin-inline: auto; padding-inline: 1rem; }
+@media (min-width: 640px){ .sfr-container { padding-inline: 1.5rem; } }
+@media (min-width: 1024px){ .sfr-container { padding-inline: 2rem; } }
+
+/* Header/Nav */
+.sfr-header { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(10px); background: color-mix(in oklab, var(--sfr-bg) 90%, transparent); border-bottom: 1px solid rgba(255,255,255,.08); }
+.sfr-nav-row { display: flex; height: 64px; align-items: center; justify-content: space-between; gap: 1rem; }
+.sfr-brand { display: inline-flex; align-items: center; gap: .5rem; color: inherit; text-decoration: none; }
+.sfr-brand-mark { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: .6rem; background: rgba(255,255,255,.1); outline: 1px solid rgba(255,255,255,.1); }
+.sfr-brand-text { font-weight: 600; letter-spacing: .02em; font-size: 1.125rem; }
+.sfr-links { display: none; gap: 1.25rem; align-items: center; font-size: .9rem; color: rgba(255,255,255,.8); }
+.sfr-link { color: inherit; text-decoration: none; }
+.sfr-link:hover { color: #fff; }
+.sfr-cta-wrap { display: none; }
+.sfr-only-mobile { display: inline-flex; }
+@media (min-width: 768px){ .sfr-links { display: inline-flex; } .sfr-cta-wrap { display: block; } .sfr-only-mobile { display: none; } }
+.sfr-icon { width: 22px; height: 22px; }
+
+.sfr-mmenu[hidden] { display: none; }
+.sfr-mmenu { border-top: 1px solid rgba(255,255,255,.1); }
+.sfr-mmenu-inner { padding-block: 1rem; display: grid; gap: 1rem; color: rgba(255,255,255,.9); }
+.sfr-mmenu-link { color: inherit; text-decoration: none; }
+.sfr-mmenu-cta { justify-content: center; display: inline-flex; }
+
+/* Buttons */
+.sfr-btn-primary { display: inline-flex; align-items: center; gap: .5rem; border-radius: .5rem; background: color-mix(in oklab, var(--sfr-accent), #a86a14 20%); color: #fff; padding: .5rem 1rem; box-shadow: 0 8px 32px rgba(0,0,0,.16); text-decoration: none; }
+.sfr-btn-primary:hover { background: color-mix(in oklab, var(--sfr-accent), #000 12%); }
+.sfr-btn-ghost { display: inline-flex; align-items: center; gap: .5rem; border-radius: .5rem; padding: .5rem .75rem; color: rgba(255,255,255,.85); background: transparent; border: 0; }
+.sfr-btn-ghost:hover { color: #fff; background: rgba(255,255,255,.06); }
+.sfr-btn-black { display: inline-flex; align-items: center; gap: .5rem; border-radius: .5rem; background: #0b0f14; color: #fff; padding: .5rem 1rem; box-shadow: 0 8px 32px rgba(0,0,0,.16); text-decoration: none; }
+.sfr-btn-black:hover { filter: brightness(1.15); }
+.sfr-btn-accent { display: inline-flex; align-items: center; justify-content: center; border-radius: .6rem; background: var(--sfr-accent); color: #fff; padding: .4rem .6rem; border: 0; }
+.sfr-btn-accent:hover { filter: brightness(1.08); }
+.sfr-btn-block { width: 100%; padding: .6rem .8rem; }
+
+.sfr-input { min-width: 0; flex: 1; border-radius: .5rem; background: rgba(255,255,255,.1); color: #fff; padding: .5rem .75rem; border: 1px solid rgba(255,255,255,.1); outline: none; }
+.sfr-input::placeholder { color: rgba(255,255,255,.6); }
+.sfr-input:focus-visible { outline: 2px solid color-mix(in oklab, var(--sfr-accent), #fff 20%); outline-offset: 2px; }
+
+/* Hero */
+.sfr-hero { position: relative; color: #0b0f14; background: #fff; }
+.sfr-hero-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.sfr-hero-img { width: 100%; height: 100%; object-fit: cover; animation: sfr-kenburns 22s ease-out both; will-change: transform; backface-visibility: hidden; transform: translateZ(0); }
+@keyframes sfr-kenburns { 0%{ transform: scale(1) translateY(0) } 100%{ transform: scale(1.08) translateY(-1.5%) } }
+.sfr-hero-gradient { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,.35), rgba(255,255,255,.2), transparent); pointer-events: none; }
+.sfr-hero-tint { position: absolute; inset: 0; background-image: radial-gradient(600px 300px at 10% 40%, rgba(231,161,56,.25), transparent), radial-gradient(800px 400px at 80% 80%, rgba(11,15,20,.10), transparent); pointer-events: none; }
+.sfr-hero-inner { position: relative; z-index: 1; padding-block: 6rem; }
+.sfr-hero-grid { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 1024px){ .sfr-hero-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+.sfr-pill { display: inline-flex; align-items: center; gap: .5rem; border-radius: 999px; background: rgba(255,255,255,.7); padding: .25rem .6rem; font-size: .75rem; outline: 1px solid rgba(0,0,0,.05); margin-bottom: .75rem; }
+.sfr-hero-title { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; }
+.sfr-hero-sub { margin-top: 1rem; color: rgba(0,0,0,.7); font-size: 1.125rem; max-width: 42rem; }
+.sfr-hero-ctas { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.sfr-hero-note { font-size: .875rem; color: rgba(0,0,0,.6); }
+.sfr-hero-phone-wrap { position: relative; width: 100%; max-width: 24rem; margin-inline: auto; }
+.sfr-reveal-pop { opacity: 0; transform: translateY(80px) scale(.55); filter: blur(8px); transform-origin: center bottom; }
+.sfr-reveal-pop.in-view { animation: sfr-popIn 1.4s cubic-bezier(.22,1,.36,1) .1s both; filter: none !important; }
+@keyframes sfr-popIn { 0% { opacity: 0; transform: translateY(80px) scale(.55); filter: blur(8px); } 60% { opacity: 1; transform: translateY(-8px) scale(1.06); filter: blur(0); } 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+.sfr-glass { backdrop-filter: saturate(180%) blur(14px); background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)); border: 1px solid rgba(255,255,255,.2); border-radius: .9rem; }
+.sfr-phone-frame { position: relative; aspect-ratio: 9/19; width: 18rem; border-radius: 2.5rem; background: rgba(0,0,0,.9); padding: .75rem; box-shadow: 0 10px 30px rgba(0,0,0,.35); outline: 1px solid rgba(0,0,0,.2); margin-inline: auto; }
+.sfr-phone-notch { position: absolute; left: 50%; transform: translateX(-50%); top: -2px; width: 5.5rem; height: 1.1rem; background: rgba(0,0,0,.9); border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; }
+.sfr-phone-screen { position: absolute; inset: .6rem; border-radius: 2rem; overflow: hidden; background: #fff; }
+.sfr-img-cover { width: 100%; height: 100%; object-fit: cover; }
+.sfr-phone-fab { position: absolute; inset-inline: .6rem; bottom: .6rem; display: flex; align-items: center; justify-content: space-between; gap: .5rem; color: #fff; border-radius: .8rem; padding: .4rem .6rem; background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)); border: 1px solid rgba(255,255,255,.2); }
+
+/* Sections */
+.sfr-section { background: #fff; color: #0b0f14; }
+.sfr-how { background: #fff; color: #0b0f14; padding-block: 5rem; }
+.sfr-features { background: #f7f7f8; color: #0b0f14; padding-block: 5rem; }
+.sfr-testimonials { background: #fff; color: #0b0f14; padding-block: 5rem; }
+.sfr-faq { background: #f7f7f8; color: #0b0f14; padding-block: 5rem; }
+
+.sfr-h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 2rem; }
+.sfr-h4 { font-size: 1.25rem; font-weight: 700; }
+.sfr-h5 { font-weight: 700; }
+.sfr-text { color: rgba(0,0,0,.7); margin-top: .5rem; }
+.sfr-text-sm { color: rgba(0,0,0,.7); margin-top: .25rem; font-size: .9rem; }
+
+.sfr-grid-2 { display: grid; gap: 2.5rem; }
+@media (min-width: 1024px){ .sfr-grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+.sfr-grid-3 { display: grid; gap: 1.5rem; }
+@media (min-width: 1024px){ .sfr-grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+
+/* Steps */
+.sfr-steps { display: grid; gap: 1rem; }
+.sfr-step { text-align: left; width: 100%; background: #fff; border-radius: .9rem; padding: 1rem; border: 1px solid rgba(0,0,0,.1); }
+.sfr-step:focus-visible { outline: 2px solid color-mix(in oklab, var(--sfr-accent), #fff 20%); outline-offset: 2px; }
+.sfr-step-title { font-size: .95rem; font-weight: 700; color: color-mix(in oklab, var(--sfr-accent), #000 35%); }
+.sfr-step-text { color: rgba(0,0,0,.7); margin-top: .25rem; }
+
+/* iPhone Deck */
+.sfr-iphone-deck{ position: relative; height: 30rem; }
+@media (max-width: 640px){ .sfr-iphone-deck { height: 26rem; } }
+.sfr-iphone-card { position: absolute; left: 50%; top: 6%; width: 13.5rem; aspect-ratio: 9/19; border-radius: 2.4rem; background: #0b0f14; box-shadow: 0 10px 30px rgba(0,0,0,.35); padding: .5rem; transition: transform .42s cubic-bezier(.22,1,.36,1), opacity .35s ease, filter .35s ease, box-shadow .42s cubic-bezier(.22,1,.36,1); transform-origin: center bottom; outline: 0; }
+@media (min-width: 1024px){ .sfr-iphone-card { width: 15rem; } }
+.sfr-iphone-bezel { position: absolute; inset: 0; border-radius: 2.4rem; pointer-events: none; box-shadow: inset 0 0 0 2px rgba(255,255,255,.06); }
+.sfr-iphone-notch { position: absolute; left: 50%; transform: translateX(-50%); top: -2px; width: 5.5rem; height: 1.1rem; background: rgba(0,0,0,.9); border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem; }
+.sfr-iphone-screen { position: absolute; inset: .6rem; border-radius: 1.9rem; overflow: hidden; background: #fff; }
+.sfr-iphone-card.active{ box-shadow: 0 18px 55px rgba(0,0,0,.45), 0 0 0 2px rgba(255,255,255,.08), 0 0 40px color-mix(in oklab, var(--sfr-accent), transparent 65%); }
+.sfr-iphone-card.dim{ opacity: .55; filter: blur(.3px) saturate(.9); }
+
+/* Simple UI inside phones */
+.sfr-iphone-ui { font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial; font-size: .8rem; line-height: 1.2; color: #0b0f14; }
+.sfr-ui-top { background: rgba(255,255,255,.95); border-bottom: 1px solid rgba(0,0,0,.1); padding: .35rem 1rem; text-align: center; font-weight: 600; }
+.sfr-ui-body { padding: .6rem; display: grid; gap: .4rem; height: 80%; overflow: auto; }
+.sfr-ui-bubble { max-width: 80%; border-radius: 1rem; background: #f3f4f6; padding: .4rem .6rem; }
+.sfr-ui-bubble.alt { margin-left: auto; background: #fdeacc; color: #0b0f14; }
+.sfr-ui-bottom { position: absolute; bottom: 0; inset-inline: 0; padding: .35rem; background: rgba(255,255,255,.95); border-top: 1px solid rgba(0,0,0,.1); display: flex; align-items: center; gap: .5rem; }
+.sfr-ui-input { flex: 1; border-radius: 1rem; background: #f3f4f6; padding: .4rem .6rem; color: rgba(0,0,0,.6); }
+.sfr-ui-send { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: .8rem; background: var(--sfr-accent); color: #fff; }
+.sfr-ui-list { list-style: none; margin: 0; padding: 0; }
+.sfr-ui-list li { padding: .6rem 1rem; border-bottom: 1px solid rgba(0,0,0,.05); }
+.sfr-ui-row { font-weight: 600; }
+.sfr-ui-sub { font-size: .72rem; color: rgba(0,0,0,.6); }
+.sfr-ui-share { padding: .75rem; display: grid; gap: .75rem; }
+.sfr-ui-avatars { display: flex; align-items: center; gap: .35rem; }
+.sfr-ui-avatar { width: 2rem; height: 2rem; border-radius: 999px; box-shadow: 0 0 0 2px #fff; object-fit: cover; }
+.sfr-ui-more { font-size: .75rem; color: rgba(0,0,0,.6); padding-left: .5rem; }
+.sfr-ui-card { border-radius: .9rem; background: #f9fafb; padding: .6rem; border: 1px solid rgba(0,0,0,.1); }
+.sfr-ui-title { font-size: .9rem; font-weight: 600; }
+.sfr-ui-perms { margin-top: .35rem; display: grid; gap: .35rem; font-size: .85rem; color: rgba(0,0,0,.75); }
+.sfr-ui-check { display: flex; align-items: center; gap: .4rem; }
+
+/* Features */
+.sfr-card-lg { border-radius: 1rem; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,.16); border: 1px solid rgba(0,0,0,.1); background: #fff; }
+.sfr-card-img { width: 100%; height: 16rem; object-fit: cover; display: block; }
+.sfr-card-body { padding: 1rem; }
+.sfr-col { display: grid; gap: 1rem; }
+.sfr-item { display: flex; align-items: flex-start; justify-content: space-between; border-radius: .9rem; background: #fff; padding: 1rem; border: 1px solid rgba(0,0,0,.1); }
+.sfr-emoji { display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .6rem; background: #fff6e6; color: #b87418; }
+.sfr-pt { padding-top: .5rem; }
+.sfr-mini-card { border-radius: 1rem; border: 1px solid rgba(0,0,0,.1); background: #fff; padding: 1rem; }
+
+/* Testimonials */
+.sfr-quote { border-radius: 1rem; padding: 1rem; border: 1px solid rgba(0,0,0,.1); background: #f6f7f9; }
+.sfr-quote-text { color: rgba(0,0,0,.8); }
+.sfr-quote-cap { margin-top: .9rem; display: flex; align-items: center; gap: .6rem; }
+.sfr-avatar { width: 2.25rem; height: 2.25rem; border-radius: 999px; object-fit: cover; }
+.sfr-quote-name { font-weight: 600; }
+.sfr-quote-loc { font-size: .75rem; color: rgba(0,0,0,.6); }
+
+/* FAQ */
+.sfr-faq-list { display: grid; gap: 1rem; }
+.sfr-faq-item { border-radius: 1rem; background: #fff; padding: 1.25rem; border: 1px solid rgba(0,0,0,.1); }
+.sfr-faq-summary { display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; font-weight: 600; }
+.sfr-faq-summary .sfr-icon { transition: transform .25s ease; }
+.sfr-faq-item[open] .sfr-faq-summary .sfr-icon { transform: rotate(180deg); }
+.sfr-faq-answer { margin-top: .6rem; color: rgba(0,0,0,.7); }
+
+/* Footer */
+.sfr-footer { background: var(--sfr-bg); color: color-mix(in oklab, var(--sfr-text), #fff 85%); padding-block: 4rem; }
+.sfr-brand-footer { color: #fff; }
+.sfr-foot-text { margin-top: 1rem; font-size: .9rem; color: rgba(255,255,255,.7); max-width: 28rem; }
+.sfr-footer-grid { display: grid; gap: 2rem; }
+@media (min-width: 768px){ .sfr-footer-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+.sfr-footer-links { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 2rem; }
+.sfr-foot-head { color: #fff; font-weight: 700; margin-bottom: .6rem; }
+.sfr-foot-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; font-size: .9rem; }
+.sfr-foot-link { color: rgba(255,255,255,.8); text-decoration: none; }
+.sfr-foot-link:hover { color: #fff; }
+.sfr-waitlist { display: flex; gap: .5rem; }
+.sfr-socials { margin-top: .75rem; display: flex; align-items: center; gap: .6rem; color: rgba(255,255,255,.7); }
+.sfr-social:hover { color: #fff; }
+.sfr-footer-meta { margin-top: 3rem; border-top: 1px solid rgba(255,255,255,.1); padding-top: 1rem; font-size: .8rem; display: flex; align-items: center; justify-content: space-between; color: rgba(255,255,255,.6); }
+.sfr-foot-legal { display: inline-flex; gap: 1rem; }
+
+/* Focus visibility */
+:where(.sfr-landing) :where(a, button, input):focus-visible { outline: 2px solid color-mix(in oklab, var(--sfr-accent), #fff 15%); outline-offset: 2px; } 
